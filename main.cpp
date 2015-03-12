@@ -21,7 +21,7 @@ int main()
 	
 	if (pid == 0)
 	{
-		execlp("/usr/bin/wget","wget", links, NULL);
+		execlp("/usr/bin/wget","wget", link1.c_str(), NULL);
 	}
 	else if (pid > 0)
 	{
