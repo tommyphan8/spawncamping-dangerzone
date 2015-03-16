@@ -1,5 +1,7 @@
 Tommy Phan
+tommyphan8@csu.fullerton.edu
 Francisco Rivas
+frankie7413@csu.fullerton.edu 
 
 LANGUAGE USED
 C++
