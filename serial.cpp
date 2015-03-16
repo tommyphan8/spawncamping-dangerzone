@@ -31,7 +31,7 @@ int main()
 {
 	
 	/* Read the URL files */
-	vector<string> urls = getURL("url.txt"); //urls.txt is the name of text file
+	vector<string> urls = getURL("urls.txt"); //urls.txt is the name of text file
 		
 	//~ // Execute the createChild function passing the vector containing URLs
 	createChild(urls);

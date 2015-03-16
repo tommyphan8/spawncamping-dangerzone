@@ -30,7 +30,7 @@ void forkChild(const vector<string>);
 
 int main()
 {
-	vector<string> url = getURL("url.txt"); //urls is the name of text file
+	vector<string> url = getURL("urls.txt"); //urls is the name of text file
 	
 	forkChild(url);
 	
