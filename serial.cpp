@@ -11,84 +11,80 @@
 
 using namespace std;
 
+/*
+ * Read the URLS from the text file
+ * @param string - name of the text file
+ * return - the vector storing the URLs
+ * 
+ */
+vector<string> getURL(const string textFile);
+
 
 
 /*
- * Read the URLs from the file
- * @param urls - the URLs to download
+ * Creates child processes serial
+ * @param vector<string> - vector containing URLs
  */
-void readUrls(vector<string>& urls)
-{
-/* Open the file */
-/* The URL buffer */
-/* Make sure the file was opened */
-/* Read the entire file */
-	string line;
-	ifstream myfile("url.txt");
-	if (myfile.is_open());
-	{
-		while(getline (myfile, line))
-		{
-			urls.push_back(line);
-		}
-	}
-/* Read the buffer */
-/* Are we at the end of the file */
-/* Close the file */
-	
-}
-
-
+void createChild(const vector<string> urls);
 
 int main()
 {
 	
 	/* Read the URL files */
-	vector<string> urls;
+	vector<string> urls = getURL("url.txt"); //urls.txt is the name of text file
 		
-	/* Read the URLs */
-	readUrls(urls);
+	//~ // Execute the createChild function passing the vector containing URLs
+	createChild(urls);
 	
-	//string link;
+	
+	return 0;
+}
+
+vector<string> getURL(const string textFile)
+{
+	vector<string> vec;
+	string line;
+	fstream fs (textFile.c_str(), fstream::in);
+	if (fs.is_open());
+	{
+		while(getline(fs, line))
+		{
+			vec.push_back(line);
+			
+		}
+		fs.close();
+	}
+		
+	return vec;
+	
+}
+
+void createChild(const vector<string> urls)
+{
+	int n = urls.size();
 	pid_t pid;
 	string link;
 	
-	for (int i = 0; i < 7; i++)
+	for (int i = 0; i < n; i ++)
 	{
 		link = urls[i];
 		pid = fork();
 		if (pid == 0)
 		{
-			execlp("/usr/bin/wget","wget", link.c_str(), NULL);
+			execlp("/usr/bin/wget","wget", "-q", link.c_str(), NULL);
 		}
 		else if (pid > 0)
-		{
-			
+		{			
 			wait(NULL);
-			cout << "Downloading number: " << i << " completed " << link << " " << endl;
 		}
 		else
 		{
 			cout << "fail";
 		}
+		
 	}
-	//pid = fork();
 	
-	//~ if (pid == 0)
-	//~ {
-		//~ execlp("/usr/bin/wget","wget", link1.c_str(), NULL);
-	//~ }
-	//~ else if (pid > 0)
-	//~ {
-		//~ 
-		//~ wait(NULL);
-		//~ cout << "complete";
-	//~ }
-	//~ else
-	//~ {
-		//~ cout << "fail";
-	//~ }
-	return 0;
 }
+
 
 

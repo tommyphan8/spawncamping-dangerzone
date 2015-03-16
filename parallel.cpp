@@ -17,8 +17,8 @@ using namespace std;
  * @param string - name of the text file
  * return - the vector storing the URLs
  * 
- */*
-vector<string> getURL(string);
+ */
+vector<string> getURL(const string);
 
 
 /*
@@ -26,11 +26,11 @@ vector<string> getURL(string);
  * @param vector - vector that contains URLS
  * 
  */
-void forkChild(vector<string>);
+void forkChild(const vector<string>);
 
 int main()
 {
-	vector<string> url = getURL("urls.txt");
+	vector<string> url = getURL("url.txt"); //urls is the name of text file
 	
 	forkChild(url);
 	
@@ -39,38 +39,68 @@ int main()
 	
 }
 
-void forkChild(vector<string> url)
+void forkChild(const vector<string> url)
 {
 	string link;
 	int n = url.size(); //number of links stored in vector
-	pid_t pid[n];
+	
+	pid_t pid;
 	
 	for (int i = 0; i < n; i++)
 	{
 		link = url[i];
-		if ((pid[i] = fork()) < 0)
+		pid = fork();
+		
+		if (pid < 0)
 		{
 			cout << "error" << endl;
-			exit(2);
+			abort();
 		}
-		else if (pid[i] == 0)
+		else if ( pid == 0)
 		{
-			execlp("/usr/bin/wget", "wget", link.c_str(), NULL);
-			exit(0);
+			break;
 		}
 		
 	}
 	
-	//wait() to prevent zombie processes
-	while (n > 0); //run until number of links in vector/processes
+	if (pid == 0)
 	{
-		wait(NULL); 
-		n--;
+		execlp("/usr/bin/wget", "wget", "-q", link.c_str(), NULL);
 	}
+	
+	for (int i = 0; i < n; i++)
+	{
+		wait(NULL);
+	}
+	
+//~ 
+	//~ for (int i = 0; i < n; i++)
+	//~ {
+		//~ link = url[i];
+		//~ if ((pid[i] = fork()) < 0)
+		//~ {
+			//~ cout << "error" << endl;
+			//~ abort();
+		//~ }
+		//~ else if (pid[i] == 0)
+		//~ {
+			//~ execlp("/usr/bin/wget", "wget", "-q", link.c_str(), NULL);
+			//~ exit(0);
+		//~ }
+		//~ 
+	//~ }
+	//~ cout << "twtSKDJFLSEAR";
+	//~ //wait() to prevent zombie processes
+	//~ while (n > 0); //run until number of links in vector/processes
+	//~ {
+		//~ cout << "test";
+		//~ wait(0); 
+		//~ n--;
+	//~ }
 }
 
 
-vector<string> getURL(string textFile)
+vector<string> getURL(const string textFile)
 {
 	vector<string> vec;
 	string line;
